@@ -36,9 +36,11 @@ public class CartaoUseCase {
     }
 
     private void validarCartaoJaExistente(String numeroCartao) {
+        log.error(">>> Relizando validacao de conta ja cadastrada.");
         CartaoEntity cartaoEntity = cartaoRepository.findByNumeroCartao(numeroCartao);
         Optional.ofNullable(Objects.nonNull(cartaoEntity) ? null : CartaoEntity.builder().build())
                 .orElseThrow(() -> {
+                    log.error(">>> Cartao {} ja cadastrado.", numeroCartao);
             Cartao cartao = cartaoMapper.toCartao(cartaoEntity);
             throw new CartaoJaCadastradoException(cartaoMapper.toCartaoDTO(cartao));
         });
